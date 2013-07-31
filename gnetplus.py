@@ -155,8 +155,8 @@ class Handle(object):
     def sendmsg(self, function, data=''):
         QueryMessage(self.deviceaddr, function, data).sendto(self.serial)
 
-    def readmsg(self):
-        while True:
+    def readmsg(self, sink_events=False):
+        while sink_events:
             response = ResponseMessage.readfrom(self.serial)
 
             # skip over events. spec doesn't say what to do with them
@@ -172,10 +172,10 @@ class Handle(object):
 
     def get_sn(self):
         self.sendmsg(QueryMessage.REQUEST)
-        self.readmsg()
+        self.readmsg(sink_events=True)
 
         self.sendmsg(QueryMessage.ANTI_COLLISION)
-        response = self.readmsg()
+        response = self.readmsg(sink_events=True)
 
         return hex(struct.unpack('>L', response.data)[0])
 
