@@ -145,7 +145,7 @@ class ResponseMessage(Message):
         return GNetPlusError("Error: " + repr(self.data))
 
 
-class GNetPlusHandle(object):
+class Handle(object):
     def __init__(self, port, baudrate=19200, deviceaddr=0):
         self.baudrate = baudrate
         self.port = port
@@ -185,5 +185,5 @@ class GNetPlusHandle(object):
 
 
 if __name__ == '__main__':
-    handle = GNetPlusHandle('/dev/ttyUSB0')
+    handle = Handle('/dev/ttyUSB0')
     print handle.get_sn()
