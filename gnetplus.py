@@ -195,8 +195,8 @@ class Handle(object):
 
         while True:
             response = self.readmsg()
-            if (response.function == ResponseMessage.EVN and
-                response.data == 'I'):
+            if ((response.function == ResponseMessage.EVN and
+                 response.data == 'I')):
                 return
 
 if __name__ == '__main__':
