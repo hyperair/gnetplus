@@ -1,6 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+
+"""
+Module for interfacing with the PROMAG card reader using the GNetPlus®
+Protocol.
+
+Usage:
+from gnetplus import Handle
+
+handle = Handle("/dev/ttyUSB0")
+print "S/N: " + hex(handle.get_sn())
+"""
+
 import collections
 import serial
 import struct
@@ -20,11 +32,20 @@ class Message(object):
     SOH = 0x01
 
     def __init__(self, address, function, data):
+        """
+        @arg address 8-bit int containing device address (Use 0 unless you know
+                     what you're doing)
+        @arg function 8-bit int containing the function of this message
+        @arg data     String containing payload of this message
+        """
         self.address = address
         self.function = function
         self.data = data
 
     def __str__(self):
+        """
+        Converts Message to raw binary form suitable for transmission
+        """
         msgstr = struct.pack('BBB', self.address, self.function,
                              len(self.data)) + self.data
         crc = self.gencrc(msgstr)
@@ -40,10 +61,19 @@ class Message(object):
                                        data=repr(self.data))
 
     def sendto(self, serial):
+        """
+        Sends this message to `serial´
+        """
         serial.write(str(self))
 
     @classmethod
     def readfrom(cls, serial):
+        """
+        Reads one message from `serial' and constructs a message from `cls'
+
+        @arg serial serial.Serial interface to read message from
+        @returns Constructed Message instance
+        """
         header = serial.read(4)
         soh, address, function, length = struct.unpack('BBBB', header)
 
@@ -62,6 +92,12 @@ class Message(object):
 
     @staticmethod
     def gencrc(msgstr):
+        """
+        Generate CRC for the string `msgstr'
+
+        @arg msgstr string containing data to be checksummed
+        @returns 16-bit integer containing CRC checksum
+        """
         crc = 0xFFFF
 
         for char in msgstr:
@@ -77,6 +113,10 @@ class Message(object):
 
 
 class QueryMessage(Message):
+    """
+    A query message to be sent from host machine to card reader device. Magical
+    constants taken from protocol documentation.
+    """
     POLLING = 0x00
     GET_VERSION = 0x01
     SET_SLAVE_ADDR = 0x02
@@ -134,15 +174,26 @@ class QueryMessage(Message):
 
 
 class GNetPlusError(Exception):
+    """
+    Exception thrown when receiving a ResponseMessage with function=NAK
+    """
     pass
 
 
 class ResponseMessage(Message):
+    """
+    Message received from card reader
+    """
     ACK = 0x06
     NAK = 0x15
     EVN = 0x12
 
     def to_error(self):
+        """
+        Construct a GNetPlusError for NAK response.
+
+        @returns Constructed instance of GNetPlusError for this response
+        """
         if self.function != self.NAK:
             return None
 
@@ -150,16 +201,40 @@ class ResponseMessage(Message):
 
 
 class Handle(object):
+    """
+    Main class used for interfacing with the card reader.
+    """
+
     def __init__(self, port, baudrate=19200, deviceaddr=0):
+        """
+        Initializes a Handle instance.
+        @arg port String containing name of serial port, e.g. /dev/ttyUSB0
+        @arg baudrate Baudrate for interfacing with the device. Don't change
+                      this unless you know what you're doing.
+        @arg deviceaddr Integer containing the device address. Defaults to 0.
+        """
         self.baudrate = baudrate
         self.port = port
         self.serial = serial.Serial(port, baudrate=baudrate)
         self.deviceaddr = deviceaddr
 
     def sendmsg(self, function, data=''):
+        """
+        Constructs and sends a QueryMessage to the device
+
+        @arg function @see Message.function
+        @arg data @see Message.data
+        """
         QueryMessage(self.deviceaddr, function, data).sendto(self.serial)
 
     def readmsg(self, sink_events=False):
+        """
+        Reads a message, optionally ignoring event (EVN) messages which are
+        device-driven.
+
+        @arg sink_events Boolean dictating whether or not events should be
+                         ignored.
+        """
         while True:
             response = ResponseMessage.readfrom(self.serial)
 
@@ -175,6 +250,11 @@ class Handle(object):
         return response
 
     def get_sn(self):
+        """
+        Get serial number of the card currently scanned.
+
+        @returns 16-bit integer containing serial number of the scanned card.
+        """
         self.sendmsg(QueryMessage.REQUEST)
         self.readmsg(sink_events=True)
 
@@ -184,14 +264,30 @@ class Handle(object):
         return struct.unpack('>L', response.data)[0]
 
     def get_version(self):
+        """
+        Get product version string. May contain null bytes, so be careful when
+        using it.
+
+        @returns Product version string of the device connected to this handle.
+        """
         self.sendmsg(QueryMessage.GET_VERSION)
         return self.readmsg().data
 
     def set_auto_mode(self, enabled=True):
+        """
+        Toggle auto mode, i.e. whether the device emits events when a card
+        comes close.
+
+        @arg enabled Whether to enable or disable auto mode.
+        """
         self.sendmsg(QueryMessage.AUTO_MODE, chr(enabled))
         self.readmsg(sink_events=True)
 
     def wait_for_card(self):
+        """
+        Block until card is present at the device. Does not check if a card is
+        already present before entering the function.
+        """
         self.set_auto_mode()
 
         while True:
