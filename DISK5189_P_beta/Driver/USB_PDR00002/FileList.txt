@@ -1,0 +1,9 @@
+FileName                                     Description
+==========================================   ===================================================
+Setup.exe                                    Auto select the file to setup USB Cable driver
+Setup.ini                                    The file for Setup.exe
+Files\Win7Vista2K3_Driver_Setup_V1210.exe    The USB Cable Driver for Win7, Win2k8, Vista, Win2k3, WinXP(x86 & x64), WinMe, Win98
+Files\ReleaseNote.txt                        ReleaseNote for Win7Vista2K3_Driver_Setup_V1210.exe
+Files\XP2KME98_Driver_Setup.exe              The USB Cable Driver for WinXP x86 Only, Win2k, WinMe, Win98
+Remove\DREMOVER98_2K.EXE                     Remove old version drivers
+Remove\RMUSB232.EXE                          Remove files is not remove by RDEMOVER98_2K.exe

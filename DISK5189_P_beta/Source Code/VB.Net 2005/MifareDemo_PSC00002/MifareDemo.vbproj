@@ -1,0 +1,188 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <MyType>WindowsForms</MyType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D366C343-79CB-4C3B-B02E-55E65E36D15F}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <AssemblyName>MifareDemo</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>MifareDemo.frmMain</StartupObject>
+    <AssemblyMajorVersion>1</AssemblyMajorVersion>
+    <AssemblyMinorVersion>5</AssemblyMinorVersion>
+    <AssemblyRevisionNumber>0</AssemblyRevisionNumber>
+    <GenerateRevisionNumber>False</GenerateRevisionNumber>
+    <AssemblyCompanyName>GIGATMS</AssemblyCompanyName>
+    <ApplicationIcon>MifareDemo.ico</ApplicationIcon>
+    <RootNamespace>MifareDemo</RootNamespace>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ManifestCertificateThumbprint>78B5BC2CE6996299AB18C0770A8D9ED9C44528CD</ManifestCertificateThumbprint>
+    <ManifestKeyFile>MifareDemo_TemporaryKey.pfx</ManifestKeyFile>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>false</SignManifests>
+    <PublishUrl>E:\Bygone Project\Software\.Net8\Windows\MifareReader\MifareDemo\Install\Install\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <TargetCulture>en-US</TargetCulture>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>MifareDemo.xml</DocumentationFile>
+    <DebugSymbols>True</DebugSymbols>
+    <DefineDebug>True</DefineDebug>
+    <DefineTrace>True</DefineTrace>
+    <DefineConstants>Win32=True</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>MifareDemo.xml</DocumentationFile>
+    <DebugSymbols>False</DebugSymbols>
+    <DefineDebug>False</DefineDebug>
+    <DefineTrace>True</DefineTrace>
+    <DefineConstants>Win32=True</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GNetPlus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e1c1ca43d49beebb, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualBasic.Compatibility">
+      <Name>Microsoft.VisualBasic.Compatibility</Name>
+    </Reference>
+    <Reference Include="MifareReader, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e1c1ca43d49beebb, processorArchitecture=MSIL" />
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.XML">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="Microsoft.VisualBasic.Compatibility" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb" />
+    <Compile Include="frmAccess.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmAccess.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAccess.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEnterKey.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmEnterKey.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmEnterKey.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmMain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSaveKey.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmSaveKey.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSaveKey.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmValue.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmValue.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmValue.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmValueEx.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmValueEx.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmValueEx.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="modMifare.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="frmAccess.resX">
+      <DependentUpon>frmAccess.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEnterKey.resX">
+      <DependentUpon>frmEnterKey.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resX">
+      <DependentUpon>frmMain.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSaveKey.resX">
+      <DependentUpon>frmSaveKey.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmValue.resX">
+      <DependentUpon>frmValue.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmValueEx.resX">
+      <DependentUpon>frmValueEx.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="ref\GNetPlus.dll" />
+    <None Include="ref\MifareReader.dll" />
+    <None Include="Related.txt" />
+    <Content Include="MifareDemo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

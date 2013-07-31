@@ -1,0 +1,50 @@
+[Autorun]
+OPEN=AUTORUN.EXE
+ICON=AUTORUN.ICO
+
+[Setup Desc]
+Item01 = ------------Install(.EXE)------------
+Item02 = Mifare Demo(VB.Net 2005) V1.0R8
+Item03 = Mifare Demo(VB6) V1.6R3
+Item04 = I/O Demo(VB6) V1.1R1
+Item05 = ------------Manual(.PDF)-------------
+Item06 = Mifare Demo Quick Start Manual
+Item07 = Mifare Application Programming Guide
+Item08 = GNetPlus Communication Protocol
+Item09 = RWD Series Specification
+Item10 = ------------Data Sheet(.PDF)---------
+Item11 = MF5SK Datasheet
+Item12 = MF10 Instruction sheet
+Item13 = ------------Drivers(.EXE)------------
+Item14 = USB Cable Driver
+Item15 = ------------Other Tools(.EXE)--------
+Item16 = WebISP Firmware Utility
+Item17 = -----------Source Code---------------
+Item18 = Mifare Demo VB.Net 2005
+Item19 = Mifare Demo VB6
+Item20 = I/O Demo VB6
+Item21 = -Visit NXP.com for more Mifare info.-
+
+
+[Setup Path]
+Item01 = Software\
+Item02 = Software\VB.Net 2005\MifareDemoSetup_PSW00021.exe
+Item03 = Software\VB6\MifareDemoSetup_PSW00020.exe
+Item04 = Software\VB6\IODemoSetup_PSW00016.exe
+Item05 = Documents\
+Item06 = Documents\TM970018_Mifare Demo Quick Start.pdf
+Item07 = Documents\TM970014_MifareAppliactionProgrammingGuide_REV_H.pdf
+Item08 = Documents\TM970013_GNetPlusCommunicationProtocol_REV_D.pdf
+Item09 = Documents\TM970023_RWD_SPEC.pdf
+Item10 = Documents\
+Item11 = Documents\TM970022_MF5DS.pdf
+Item12 = Documents\TM951179_MF10_Instruction .pdf
+Item13 = Driver\
+Item14 = Driver\USB_PDR00002\Setup.exe
+Item15 = Software\
+Item16 = Software\WebISPSetup_PSW00030.exe
+Item17 = Source Code\
+Item18 = Source Code\VB.Net 2005\MifareDemo_PSC00002\
+Item19 = Source Code\VB6\MifareDemo_PSC00001
+Item20 = Source Code\VB6\IODemo_PSC00003
+Item21 = http://www.nxp.com/

@@ -1,0 +1,35 @@
+2012/04/27 V1.0R8
+1. Add new model PCR310-ACU, it's like the PCR310 with Card Serial Number by little endian
+2. Add new model DF750-PT
+3. Add the Mifare Pro Card supported
+
+2012/01/06 V1.0R7
+1. Modfiy the CB0~CB3 mapping to blocks is wrong in frmAccess when using the mifare 4K card and sector 32 or below
+
+2012/01/02 V1.0R7
+1. Add new support device MF700-36
+
+2011/07/20 V1.0R6
+1. Add new function: The COM Port and the baudrate is selectable
+
+2011/06/16 V1.0R5
+1. Support Save Key up to 40 sectors for New Deivce (New DF20, PCR320 etc.)
+2. Changed the Request function display information from the Card Type to the ATQA value.
+3. Changed the Select Card function display information from the "PICC" to "SAK".
+4. The AutoScan function will scan last CommPort and last baudrate first for quick scan.
+5. Support new device MF20
+
+2010/08/17 V1.0R4
+1. Support the Restore/Transfer command of PCR310 firmware Version 1.3R6 and above
+
+2010/08/03 V1.0R3
+1. Support new device DF20
+
+2009/12/11 V1.0R2
+1. Support new device PCR320
+
+2009/02/18 V1.0R1
+1. Support new device MF700-10
+
+2009/01/15 V1.0R0
+1. First Version
