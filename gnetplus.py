@@ -1,6 +1,7 @@
 import collections
 import serial
 import struct
+import sys
 import time
 
 
@@ -156,11 +157,11 @@ class Handle(object):
         QueryMessage(self.deviceaddr, function, data).sendto(self.serial)
 
     def readmsg(self, sink_events=False):
-        while sink_events:
+        while True:
             response = ResponseMessage.readfrom(self.serial)
 
             # skip over events. spec doesn't say what to do with them
-            if response.function == ResponseMessage.EVN:
+            if sink_events and response.function == ResponseMessage.EVN:
                 continue
 
             break
@@ -177,13 +178,38 @@ class Handle(object):
         self.sendmsg(QueryMessage.ANTI_COLLISION)
         response = self.readmsg(sink_events=True)
 
-        return hex(struct.unpack('>L', response.data)[0])
+        return struct.unpack('>L', response.data)[0]
 
     def get_version(self):
         self.sendmsg(QueryMessage.GET_VERSION)
         return self.readmsg().data
 
+    def set_auto_mode(self, enabled=True):
+        self.sendmsg(QueryMessage.AUTO_MODE, chr(enabled))
+        self.readmsg(sink_events=True)
+
+    def wait_for_card(self):
+        self.set_auto_mode()
+
+        while True:
+            response = self.readmsg()
+            if (response.function == ResponseMessage.EVN and
+                response.data == 'I'):
+                return
 
 if __name__ == '__main__':
-    handle = Handle('/dev/ttyUSB0')
-    print handle.get_sn()
+    try:
+        port = sys.argv[1]
+    except IndexError:
+        sys.stderr.write("Usage: {0} <serial port>\n".format(sys.argv[0]))
+
+    handle = Handle(port)
+
+    while True:
+        handle.wait_for_card()
+
+        try:
+            print "Found card: {0}".format(hex(handle.get_sn()))
+
+        except GNetPlusError:
+            print "Tap card again."
