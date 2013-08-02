@@ -200,7 +200,7 @@ class QueryMessage(Message):
 class GNetPlusError(Exception):
     """
     Exception thrown when receiving a :py:class:`ResponseMessage` with
-    `function=NAK`
+    `function` = :py:data:`ResponseMessage.NAK`
     """
     pass
 
@@ -215,7 +215,7 @@ class ResponseMessage(Message):
 
     def to_error(self):
         """
-        Construct a GNetPlusError for `NAK` response.
+        Construct a GNetPlusError for :py:data:`NAK` response.
 
         :return: Constructed instance of :py:class:`GNetPlusError` for this response
         """
@@ -228,15 +228,16 @@ class ResponseMessage(Message):
 class Handle(object):
     """
     Main class used for interfacing with the card reader.
+
+    :param port: String containing name of serial port, e.g. /dev/ttyUSB0
+    :param baudrate: Baudrate for interfacing with the device. Don't change
+                     this unless you know what you're doing.
+    :param deviceaddr: Integer containing the device address. Defaults to 0.
     """
 
     def __init__(self, port, baudrate=19200, deviceaddr=0):
         """
         Initializes a Handle instance.
-        :param port: String containing name of serial port, e.g. /dev/ttyUSB0
-        :param baudrate: Baudrate for interfacing with the device. Don't change
-                      this unless you know what you're doing.
-        :param deviceaddr: Integer containing the device address. Defaults to 0.
         """
         self.baudrate = baudrate
         self.port = port
@@ -245,10 +246,10 @@ class Handle(object):
 
     def sendmsg(self, function, data=''):
         """
-        Constructs and sends a QueryMessage to the device
+        Constructs and sends a :py:class:`QueryMessage` to the device
 
-        :param function: message function
-        :type function: int (0-255), see Message.function
+        :param function: message function (0-255, see `Message.function`)
+        :type function: int
         :param data: message data
         :type data: str
         """
@@ -260,7 +261,7 @@ class Handle(object):
         device-driven.
 
         :param sink_events: Boolean dictating whether or not events should be
-                         ignored.
+                            ignored.
         """
         while True:
             response = ResponseMessage.readfrom(self.serial)
