@@ -27,10 +27,10 @@ Module for interfacing with the PROMAG card reader using the GNetPlus®
 Protocol.
 
 Usage:
-from gnetplus import Handle
 
-handle = Handle("/dev/ttyUSB0")
-print "S/N: " + hex(handle.get_sn())
+>>> from gnetplus import Handle
+>>> handle = Handle("/dev/ttyUSB0")
+>>> print "S/N: " + hex(handle.get_sn())
 """
 
 import collections
@@ -47,17 +47,18 @@ class InvalidMessage(Exception):
 class Message(object):
     """
     Base message class for representing a message
+
+    :param address: Device Address (0-255, default 0)
+    :type address: int
+    :param function: Function of this message
+    :type function: int
+    :param data: Payload of this message
+    :type data: str
     """
 
     SOH = 0x01
 
-    def __init__(self, address, function, data):
-        """
-        @arg address 8-bit int containing device address (Use 0 unless you know
-                     what you're doing)
-        @arg function 8-bit int containing the function of this message
-        @arg data     String containing payload of this message
-        """
+    def __init__(self, address=0, function=None, data=''):
         self.address = address
         self.function = function
         self.data = data
@@ -82,17 +83,20 @@ class Message(object):
 
     def sendto(self, serial):
         """
-        Sends this message to `serial´
+        Sends this message to `serial`
+
+        :param serial: Serial interface to send this message to
+        :type serial: :py:class:`serial.Serial`
         """
         serial.write(str(self))
 
     @classmethod
     def readfrom(cls, serial):
         """
-        Reads one message from `serial' and constructs a message from `cls'
+        Constructs one message from `serial`
 
-        @arg serial serial.Serial interface to read message from
-        @returns Constructed Message instance
+        :param serial: serial.Serial interface to read message from
+        :rtype: `Message` instance
         """
         header = serial.read(4)
         soh, address, function, length = struct.unpack('BBBB', header)
@@ -113,10 +117,10 @@ class Message(object):
     @staticmethod
     def gencrc(msgstr):
         """
-        Generate CRC for the string `msgstr'
+        Generate CRC for the string `msgstr`
 
-        @arg msgstr string containing data to be checksummed
-        @returns 16-bit integer containing CRC checksum
+        :param msgstr: string containing data to be checksummed
+        :return: 16-bit integer containing CRC checksum
         """
         crc = 0xFFFF
 
@@ -195,7 +199,8 @@ class QueryMessage(Message):
 
 class GNetPlusError(Exception):
     """
-    Exception thrown when receiving a ResponseMessage with function=NAK
+    Exception thrown when receiving a :py:class:`ResponseMessage` with
+    `function=NAK`
     """
     pass
 
@@ -210,9 +215,9 @@ class ResponseMessage(Message):
 
     def to_error(self):
         """
-        Construct a GNetPlusError for NAK response.
+        Construct a GNetPlusError for `NAK` response.
 
-        @returns Constructed instance of GNetPlusError for this response
+        :return: Constructed instance of :py:class:`GNetPlusError` for this response
         """
         if self.function != self.NAK:
             return None
@@ -228,10 +233,10 @@ class Handle(object):
     def __init__(self, port, baudrate=19200, deviceaddr=0):
         """
         Initializes a Handle instance.
-        @arg port String containing name of serial port, e.g. /dev/ttyUSB0
-        @arg baudrate Baudrate for interfacing with the device. Don't change
+        :param port: String containing name of serial port, e.g. /dev/ttyUSB0
+        :param baudrate: Baudrate for interfacing with the device. Don't change
                       this unless you know what you're doing.
-        @arg deviceaddr Integer containing the device address. Defaults to 0.
+        :param deviceaddr: Integer containing the device address. Defaults to 0.
         """
         self.baudrate = baudrate
         self.port = port
@@ -242,8 +247,10 @@ class Handle(object):
         """
         Constructs and sends a QueryMessage to the device
 
-        @arg function @see Message.function
-        @arg data @see Message.data
+        :param function: message function
+        :type function: int (0-255), see Message.function
+        :param data: message data
+        :type data: str
         """
         QueryMessage(self.deviceaddr, function, data).sendto(self.serial)
 
@@ -252,7 +259,7 @@ class Handle(object):
         Reads a message, optionally ignoring event (EVN) messages which are
         device-driven.
 
-        @arg sink_events Boolean dictating whether or not events should be
+        :param sink_events: Boolean dictating whether or not events should be
                          ignored.
         """
         while True:
@@ -273,7 +280,7 @@ class Handle(object):
         """
         Get serial number of the card currently scanned.
 
-        @returns 16-bit integer containing serial number of the scanned card.
+        :return: 16-bit integer containing serial number of the scanned card.
         """
         self.sendmsg(QueryMessage.REQUEST)
         self.readmsg(sink_events=True)
@@ -288,7 +295,7 @@ class Handle(object):
         Get product version string. May contain null bytes, so be careful when
         using it.
 
-        @returns Product version string of the device connected to this handle.
+        :return: Product version string of the device connected to this handle.
         """
         self.sendmsg(QueryMessage.GET_VERSION)
         return self.readmsg().data
@@ -298,7 +305,7 @@ class Handle(object):
         Toggle auto mode, i.e. whether the device emits events when a card
         comes close.
 
-        @arg enabled Whether to enable or disable auto mode.
+        :param enabled: Whether to enable or disable auto mode.
         """
         self.sendmsg(QueryMessage.AUTO_MODE, chr(enabled))
         self.readmsg(sink_events=True)
